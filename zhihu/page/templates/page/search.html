@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+    <h1> Hi </h1>
+    <h2>
+        <a href="/page/index/{{ uid }}/mine/">{{ account }}</a>
+    </h2>
+
+        <table>
+            {% for topic in topics %}
+                <tr>
+                    <td><a href="/page/index/{{ uid }}/topics/{{ topic.tid }}/">{{ topic.name }}</a></td>
+                    <td>{{ topic.quenum }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <table>
+            {% for user in users %}
+                <tr>
+                    <td><a href="/page/index/{{ uid }}/other/{{ user.uid }}/">{{ user.nickname }}</a></td>
+                    <td>{{ user.answer }}</td>
+                    <td>{{ user.ask }}</td>
+                    <td>{{ user.focus }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <table>
+            {% for question in questions %}
+                <tr>
+                    <td><a href="/page/index/{{ uid }}/question/{{ question.qid }}/">{{ question.title }}</a></td>
+                    <td>{{ question.content }}</td>
+                    <td>{{ question.time }}</td>
+                    <td>{{ question.ideanum }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+</body>
+</html>

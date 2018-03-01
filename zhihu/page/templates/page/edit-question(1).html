@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Edit Question</title>
+</head>
+<body>
+<!-- <body style="background-color: #76c1ff;"> -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #2a90f8;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+    <div class="row clearfix">
+    <div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: white;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class=""><a href="/page/index/{{ uid }}/"><span style="color: white;">首页</span></a></li>
+            <li><a href="#"><span style="color: white;">发现</span></a></li>
+            <li class=""><a href="/page/index/{{ uid }}/topics/"><span style="color: white;">话题</span></a></li>
+        </ul>
+
+        <form method="POST" action="/page/index/{{ uid }}/search/" class="navbar-form navbar-left">
+            <div class="form-group">
+               <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+
+      <ul class="nav navbar-nav navbar-right">
+          <li>
+              <a href="#"><span style="color: white;"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</span></a>
+          </li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <span style="color: white;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span></span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">设置</a></li>
+                  <li><a href="/page/index/">退出</a></li>
+              </ul>
+          </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+    </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<!-- 问题信息 -->
+
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+    
+    <div class="page-header">
+        
+        <br><br>
+        
+        <p style="color: gray;">原问题: </p>
+        <blockquote style="border-left-color: orange;">
+            <p>{{ title }}</p>
+        </blockquote>
+        <!-- <br> -->
+        <p style="color: gray;">原描述: </p>
+        <blockquote style="border-left-color: orange;">
+            <p>{{ content }}</p>
+        </blockquote>
+    </div>
+    
+</div>
+<br>
+<br>
+<br>
+
+
+<!-- 编辑问题面板 -->
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+    <div class="panel panel-default">
+        <div class="panel-body">  
+            <form action="/page/index/{{ uid }}/savequestion/{{ qid }}/" method="POST">
+                <h3 class="text-center">修改你的问题<small> 描述精确的问题更易得到解答</small></h3>
+                <p>
+                    <!-- <textarea class="form-control" placeholder="问题标题" name="question-title"></textarea> -->
+                    <div class="input-group">
+                        <span class="input-group-addon">问题标题</span>
+                        <input type="text" class="form-control" placeholder="问题标题" name="question-title" value="{{ title }}">
+                    </div>
+                </p>
+                <p>
+                    <div class="input-group">
+                        <span class="input-group-addon">所属话题</span>
+                        <input type="text" class="form-control" placeholder="所属话题" name="add-topic" value="{{ name }}">
+                    </div>
+                </p>
+                <p>
+                    <br>问题描述(可选): 
+                </p>
+                <p>
+                    <textarea class="form-control" rows="5" placeholder="问题描述" name="question-description">{{ content }}</textarea>
+                </p>
+                <br><br>
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> -->
+                <p>
+                    <button type="submit" class="btn btn-primary btn-block">确认修改</button>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

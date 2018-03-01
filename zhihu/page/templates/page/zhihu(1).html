@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Home</title>
+</head>
+<body style="padding-top: 70px; background-color: #76c1ff;"><!-- #f3f3f3  -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class="active"><a href="/page/index/{{ uid }}/">首页</a></li>
+        	<li><a href="#">发现</a></li>
+        	<li class=""><a href="/page/index/{{ uid }}/topics/">话题</a></li>
+        </ul>
+
+      <form class="navbar-form navbar-left" method="POST" action="/page/index/{{ uid }}/search/">
+      	<div class="form-group">
+           <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	</div>
+      	<button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+        </li>
+        <li class="dropdown">
+        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span>
+        	</a>
+        	<ul class="dropdown-menu">
+	            <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#">设置</a></li>
+	            <li><a href="/page/index/">退出</a></li>
+        	</ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+	<div class="row clearfix">
+		<!-- 中间内容区 -->
+		<div class="col-md-9 column">
+			{% for list in lists %}
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<p style="color: gray;">来自话题: <a href="/page/index/{{ uid }}/topics/{{ list.tid }}/">{{ list.name }}</a></p>
+					<p>
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span> <a href="/page/index/{{ uid }}/other/{{ list.idea.uid }}/"> {{ list.idea.nickname }}</a>
+					</p>
+					<h4><b><a href="/page/index/{{ uid }}/question/{{ list.qid }}/">{{ list.question }}</a></b></h4>
+					
+					<p>{{ list.idea.content }}</p>
+					<p style="color: gray;">编辑于 {{ list.idea.time }}</p>
+
+					<button type="button" class="btn btn-info btn-sm" id="{{ list.idea.iid }}" name="ok" onclick="good(this)">
+						<span class="glyphicon glyphicon-triangle-top"></span> {{ list.idea.good }}
+					</button>
+					<button type="button" class="btn btn-info btn-sm" id="-{{ list.idea.iid }}" name="ok" onclick="bad(this)">
+						<span class="glyphicon glyphicon-triangle-bottom"></span> {{ list.idea.bad }}
+					</button>
+					<a style="margin-left: 8%;" href="/page/index/{{ uid }}/question/{{ list.qid }}/idea/{{ list.idea.iid }}/comments/"><span class="glyphicon glyphicon-comment"></span> {{ list.idea.commentnum }}评论</a>
+					<a style="margin-left: 8%;"><span class="glyphicon glyphicon-send"></span> 分享</a>
+					<a style="margin-left: 8%;"><span class="glyphicon glyphicon-star-empty"></span> 收藏</a>
+					<a style="margin-left: 8%;"><span class="glyphicon glyphicon-alert"></span> 举报</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+		<!-- 右边导航栏 -->
+		<div class="col-md-3 column">
+			<!-- <div class="panel panel-default"> -->
+				<!-- <div class="panel-body"> -->
+					<ul class="nav nav-pills nav-stacked">
+						<li role="presentation" class="">
+							<!-- 提问按钮 -->
+							<a href="#" class="list-group-item" data-toggle="modal" data-target="#ask-panel">
+						    	<span class="glyphicon glyphicon-question-sign"></span> 提问
+						  	</a>
+
+						  	<!-- 提问具体信息 -->
+						  	<div id="ask-panel" class="modal fade" tabindex="-1" role="dialog">
+							  	<div class="modal-dialog" role="document">
+							    	<div class="modal-content">
+							      		<div class="modal-header">
+							        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							        		<h4 class="modal-title"></h4>
+							      		</div>
+							      		<div class="modal-body">
+							      			<form id="question_ask" method="post" enctype="multipart/form-data">
+								      			<h3 class="text-center">写下你的问题</h4>
+								      			<h4 class="text-center" style="color: gray;">描述精确的问题更易得到解答</h4><br>
+								      			<p>
+								      				<div class="input-group">
+								      				<input type="hidden" id="question_asker" value="{{ uid }}">
+								      				<span class="input-group-addon">问题标题</span>
+								      				<input type="text" class="form-control" placeholder="问题标题" id="question_title">
+								      				</div>
+									      			<!-- <div class="input-group">
+									      				<span class="input-group-addon">问题标题</span>
+									        			<input type="text" class="form-control" placeholder="问题标题" name="question-title">
+									        		</div> -->
+								        		</p>
+								        		<p>
+									        		<div class="input-group">
+									        			<span class="input-group-addon">添加话题</span>
+										        		<input type="text" class="form-control" placeholder="添加话题" id="question_topic">
+										        	</div>
+										        </p>
+										        <p>
+										        	<br>问题描述(可选): 
+										        </p>
+										        <p>
+										        	<textarea class="form-control" placeholder="问题描述" id="question_description"></textarea>
+										        </p>
+										        <br><br>
+										        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> -->
+										        <p>
+										        	<button type="submit" class="btn btn-primary btn-block" id="question_submit">提交</button>										        
+										    	</p>
+									        </form>
+							      		</div>
+							      		<div class="modal-footer">
+							      		</div>
+							    	</div><!-- /.modal-content -->
+							  	</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+
+						</li>
+						<li role="presentation" class="">
+							<a href="#" class="list-group-item">
+						    	<span class="glyphicon glyphicon-list"></span> 回答
+						  	</a>
+						</li>
+						<li role="presentation" class="">
+							<a href="#" class="list-group-item">
+						    	<span class="glyphicon glyphicon-star"></span> 我的收藏
+						  	</a>
+						</li>
+						<li role="presentation" class="">
+							<a href="#" class="list-group-item">
+						    	<span class="glyphicon glyphicon-exclamation-sign"></span> 关注的问题
+						  	</a>
+						</li>
+						<li role="presentation" class="">
+							<a href="#" class="list-group-item">
+						    	...
+						  	</a>
+						</li>
+					</ul>
+				<!-- </div> -->
+			<!-- </div> -->
+		</div>
+
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+	$('.collapse').collapse();
+	function good(obj){
+        var id = obj.id;
+        var name = obj.name;
+        //alert(name);
+        if(name == "ok"){
+        $.ajax({
+            type:"post",
+            url:"/page/index/add_good/",
+            data: {
+                'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                var res = JSON.parse(data);
+                var good = res.response;
+                var html = '<span class="glyphicon glyphicon-triangle-top"></span> ' + good;
+	    		$('#'+id).html(html);
+            }
+        });
+        document.getElementById(id).name="unok";
+    	}
+    	else{
+    	$.ajax({
+            type:"post",
+            url:"/page/index/cancel_good/",
+            data: {
+                'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                var res = JSON.parse(data);
+                var good = res.response;
+                var html = '<span class="glyphicon glyphicon-triangle-top"></span> ' + good;
+	    		$('#'+id).html(html);
+            }
+        });
+    	document.getElementById(id).name="ok";
+    	}
+    }
+	function bad(obj){
+    	var id = obj.id;
+    	var name = obj.name;
+    	if(name == "ok"){
+	    $.ajax({
+	   		type:"post",
+	   		url:"/page/index/add_bad/",
+	   		data: {
+	   			'id': id,
+    		},
+    		success: function(data){
+	    		//alert(data);
+	   			var res = JSON.parse(data);
+	   			var bad = res.response;
+	   			var html = '<span class="glyphicon glyphicon-triangle-bottom"></span> ' + bad;
+	   			$('#'+id).html(html);
+    		}
+	    });
+	    document.getElementById(id).name="unok";
+		}
+		else{
+		$.ajax({
+	   		type:"post",
+	   		url:"/page/index/cancel_bad/",
+	   		data: {
+	   			'id': id,
+    		},
+    		success: function(data){
+	    		//alert(data);
+	   			var res = JSON.parse(data);
+	   			var bad = res.response;
+	   			var html = '<span class="glyphicon glyphicon-triangle-bottom"></span> ' + bad;
+	   			$('#'+id).html(html);
+    		}
+	    });
+	    document.getElementById(id).name="ok";
+		}
+	}
+	$("#question_ask").submit(function(){
+		var uid = $('#question_asker').val();
+		var title = $('#question_title').val();
+		var topic = $('#question_topic').val();
+		var content = $('#question_description').val();
+		$.ajax({
+			type:"post",
+			url:"/page/index/ask_over/",
+			data: {
+				'uid': uid,
+				'title': title,
+				'topic': topic,
+				'content': content,
+			},
+			success: function(data){
+				//alert(response);
+				$("#question_ask")[0].reset();
+			}
+		});
+	});
+</script>
+
+</body>
+</html>

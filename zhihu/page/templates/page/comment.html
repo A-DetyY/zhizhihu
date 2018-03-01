@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+    <h1> Hi </h1>
+    <h2>
+        <a href="/page/index/{{ uid }}/mine/">{{ account }}</a>
+    </h2>
+    <form method="post" action="/page/index/{{ uid }}/question/{{ qid }}/idea/{{ iid }}/make_comment/">
+        <p>添加评论</p>
+        <textarea name="content" cols="35" rows="5"></textarea>
+        <input type="submit" value="确认">
+    </form>
+    <hr>
+
+    <h5>来自回答：{{ content }}</h5>
+        {% csrf_token %}
+        <table>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.nickname }}</td>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ comment.time }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+</body>
+</html>

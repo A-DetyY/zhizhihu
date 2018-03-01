@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Personal Page</title>
+</head>
+<body style="padding-top: 0px; background-color: #76c1ff;"><!-- #f3f3f3  -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a href="/page/index/{{ uid }}/">首页</a></li>
+        	<li><a href="#">发现</a></li>
+        	<li class=""><a href="/page/index/{{ uid }}/topics/">话题</span></a></li>
+        </ul>
+
+      <form class="navbar-form navbar-left" method="POST" action="/page/index/{{ uid }}/search/">
+      	  <div class="form-group">
+             <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	  </div>
+      	  <button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+        </li>
+        <li class="dropdown">
+        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span>
+        	</a>
+        	<ul class="dropdown-menu">
+	            <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#">设置</a></li>
+	            <li><a href="/page/index/">退出</a></li>
+        	</ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="panel panel-default" style="background-color: white;">
+    <div class="container" style="padding-left: 10%; padding-right: 10%;">
+        <br><br><br>
+
+        <h3>问题: <a href="/page/index/{{ uid }}/question/{{ qid }}/">{{ title }}</a><button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#comment-input"><span class="glyphicon glyphicon-pencil"></span> 写评论</button></h3>
+        <blockquote>
+            <p>{{ content }}</p>
+            <footer>共 {{ commentnum }} 条评论</footer>
+            <footer>按日期时间排序</footer>
+        </blockquote>
+
+    </div>
+</div>
+
+<!-- 评论列表 -->
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+
+    <!-- 评论输入框 -->
+    <div id="comment-input" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="comment_write" method="post" enctype="multipart/form-data">
+                        <div class="media-left media-middle">
+                            <a href="#">
+                                <img class="media-object" src="{% static 'image/1.jpg' %}" alt="35x35" width="35px" height="35px">
+                            </a>
+                        </div>
+                        <div class="media-body media-middle">
+                            <p><a href="#"><strong>{{ nickname }}</strong></a><button type="submit" class="btn btn-primary pull-right">发表评论</button></p>
+                        </div>
+                        <br>
+                        <p>
+                            <input type="hidden" id="uid" value="{{ uid }}">
+                            <input type="hidden" id="iid" value="{{ iid }}">
+                            <textarea type="text" rows="6" class="form-control" name="comment-input" id="comment_content" placeholder="写评论..."></textarea>
+                        </p>
+                    </form>
+                </div>
+                <!-- <div class="modal-footer">
+                </div> -->
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal-dialog -->
+    </div> <!-- /.modal -->
+    
+    {% for comment in comments %}
+    <!-- 评论1 -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!-- 头像和用户名 -->
+            <div class="media">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'image/1.jpg' %}" alt="30x30" width="30px" height="30px">
+                    </a>
+                </div>
+                <div class="media-body media-right">
+                    <blockquote class="blockquote-reverse" style="margin: 0px;">
+                        <a href="#" class="pull-left" style="color: black;">{{ comment.nickname }}</a>
+                        <footer>发表于 {{ comment.time }}</footer>
+                    </blockquote>
+                </div>
+            </div>
+            <hr>
+
+            <!-- 评论内容 -->
+            <p>
+                <h4>{{ comment.content }}</h4>
+            </p>
+
+            <!-- 按钮 -->
+            <br>
+            <!--
+            <a style="margin-right: 5%;"><span class="glyphicon glyphicon-thumbs-up"></span> 赞 {{ comment.good }}</a>
+            <a style="margin-right: 5%;"><span class="glyphicon glyphicon-thumbs-down"></span> 踩 {{ comment.bad }}</a>
+            -->
+            <a style="margin-right: 5%;"><span class="glyphicon glyphicon-alert"></span> 举报</a>
+
+        </div>
+    </div>
+    <!-- 评论1 end -->
+    {% endfor %}
+
+
+</div><!-- 评论列表 end -->
+
+<script type="text/javascript">
+    $("#comment_write").submit(function(){
+        var uid = $('#uid').val();
+        var iid = $('#iid').val();
+        var content = $('#comment_content').val();
+        //alert(uid+iid+content);
+        
+        $.ajax({
+            type:"post",
+            url:"/page/index/make_comment/",
+            data: {
+                'uid': uid,
+                'iid': iid,
+                'content': content,
+            },
+            success: function(data){
+                //alert(data);
+            }
+        });
+        
+    });
+</script>
+
+
+</body>
+</html>

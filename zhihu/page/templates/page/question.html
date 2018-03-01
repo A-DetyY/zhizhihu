@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+    <h1> Hi </h1>
+    <h2>
+        <a href="/page/index/{{ uid }}/mine/">{{ account }}</a>
+    </h2>
+    <hr>
+    <h5>来自问题：{{ title }}</h5>
+    <form method="post" action="/page/index/{{ uid }}/question/{{ qid }}/make_idea/">
+        <p>添加回答</p>
+        <textarea name="content" cols="35" rows="5"></textarea>
+        <input type="submit" value="确认">
+    </form>
+    <hr>
+        {% csrf_token %}
+            {% for idea in ideas %}
+
+                    <a href="/page/index/{{ uid }}/question/{{ qid }}/idea/{{ idea.iid }}/comments">{{ idea.content }}</a>
+                    <br>{{ idea.time }}</br>
+                    <br>{{ idea.commentnum }}</br>
+                    <br>{{ idea.good }}</br>
+                    <br>{{ idea.bad }}</br>
+                    <br>{{ idea.uid }}
+                    <hr>
+            {% endfor %}
+
+</body>
+</html>

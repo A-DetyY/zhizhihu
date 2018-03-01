@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Manager</title>
+</head>
+<body style="background-color: #76c1ff;"><!-- #f3f3f3  -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a>后台管理</a></li>
+        </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+        </li>
+        <li class="dropdown">
+        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> 管理员 <span class="caret"></span>
+        	</a>
+        	<ul class="dropdown-menu">
+	            <li><a href="/page/index/">退出</a></li>
+        	</ul>
+        </li>
+      </ul>
+      
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="panel panel-default" style="background-color: white;">
+    <div class="container" style="padding-left: 10%; padding-right: 10%;">
+        <br><br><br>
+        <h3>尊敬的 <strong style="color: red;">管理员</strong> 你好!</h3>
+        <br>
+        <!--
+        <div class="row clearfix">
+            <div class="col-md-12 column">     
+            
+                <div class="col-md-4 column">
+                    
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">最近2天</button>
+                        <button type="button" class="btn btn-default">最近1周</button>
+                        <button type="button" class="btn btn-default">最近1个月</button>
+                    </div>
+                </div>
+
+                <div class="col-md-8 column">
+                    
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <form>
+                                <div class="col-md-1">
+                                    从 
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="custom-date-start">
+                                </div>
+                                <div class="col-md-1">
+                                    到
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control" name="custom-date-end">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="form-control btn btn-default">查询</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        -->
+    </div>
+</div>
+
+
+<!-- 搜索结果页面 -->
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+
+    <!-- 选项卡面板 -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="tabbable">
+                <!-- 选项卡标题 -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#questions-about" data-toggle="tab">问题相关的日志</a>
+                    </li>
+                    <li>
+                        <a href="#ideas-about" data-toggle="tab">回答相关的日志</a>
+                    </li>
+                    <li>
+                        <a href="#comments-about" data-toggle="tab">评论相关的日志</a>
+                    </li>
+                    <li>
+                        <a href="#topics-list" data-toggle="tab">话题列表</a>
+                    </li>
+                    <li>
+                        <a href="#users-list" data-toggle="tab">用户列表</a>
+                    </li>
+                </ul>
+
+                <!-- 对应的选项卡页面 -->
+                <div class="tab-content">
+                    <!-- 问题相关的日志 -->
+                    <div class="tab-pane active" id="questions-about">
+                        <br>
+                        {% for question in questions %}
+                        <!-- 记录1 -->
+                        <blockquote style="border-left-color: orange;">
+                            <p><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ question.nickname }} <mark>{{ question.operation }}</mark>了问题: </p>                            
+                            <p>
+                                <a href="">{{ question.content }}</a>
+                            </p>
+                            <footer>{{ question.time }}</footer>
+                        </blockquote>
+                        <!-- 记录1 end -->
+                        <hr>
+                        {% endfor %}
+                    </div>
+
+                    <!-- 回答相关的日志 -->
+                    <div class="tab-pane" id="ideas-about">
+                        <br>
+                        {% for idea in ideas %}
+                        <!-- 记录1 -->
+                        <blockquote style="border-left-color: orange;">
+                            <p><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ idea.nickname }} <mark>{{ idea.operation }}</mark>了回答: </p>                            
+                            <p>
+                                <a>{{ idea.content }}</a>
+                            </p>
+                            <footer>{{ idea.time }}</footer>
+                        </blockquote>
+                        <!-- 记录1 end -->
+                        <hr>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- 评论相关的日志 -->
+                    <div class="tab-pane" id="comments-about">
+                        <br>
+                        {% for comment in comments %}
+                        <!-- 记录1 -->
+                        <blockquote style="border-left-color: orange;">
+                            <p><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ comment.nickname }} <span style="color: gray;"><mark>{{comment.operation }}</mark>了评论</p>
+                            <p><a>comment.content</a></p>
+                            <footer>{{ comment.time }}</footer>
+                        </blockquote>
+                        <!-- 记录1 end -->
+                        <hr>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- 话题列表 -->
+                    <div class="tab-pane" id="topics-list">
+                        <br>
+                            <form  id="addtopic" method="post" enctype="multipart/form-data">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="topic">
+                                </div>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign">添加话题</span></button>
+                            </form>
+                        <hr>
+                        <div class="row clearfix">
+                            {% for topic in topics %}
+                            <div class="col-md-6 column">
+                
+                                <!-- 记录1 -->
+                                <blockquote style="border-left-color: orange;">
+                                    <p>
+                                        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>  <span style="color: gray;"><mark>{{ topic.name }}</mark></span>
+                                        &nbsp;
+                                        <a href="/page/index/deletetopic/{{ topic.tid }}/" class="pull-right"><span class="glyphicon glyphicon-minus-sign">删除话题</span></a>
+                                    </p>
+                                    <footer>{{ topic.quenum }} 个问题</footer>
+                                </blockquote>
+                                <!-- 记录1 end -->
+                                
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <hr>
+
+                    </div>
+
+                    <!-- 用户列表 -->
+                    <div class="tab-pane" id="users-list">
+                        <br>
+                        {% for user in users %}
+                        <p>
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <img class="media-object" src="{% static 'image/1.jpg' %}" alt="60x60" width="60px" height="60px">
+                                </div>
+                                <div class="media-body">
+                                    <p>用户账号: {{ user.account }}</p>
+                                    <p>用户昵称: {{ user.nickname }}</p>
+                                    
+                                </div>
+                            </div>
+                        </p>
+                        <hr>
+                        {% endfor %}
+                        
+
+                    </div>
+
+                </div><!-- tab-content end -->
+
+            </div><!-- tabbable end -->
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $("#addtopic").submit(function(){
+        //alert("INNNN");
+        var topic = $('#topic').val();
+        //alert(topic);
+        $.ajax({
+            type:"post",
+            url:"/page/index/addtopic/",
+            data: {
+                'topic': topic,
+            },
+            success: function(data){
+                //alert(data);
+                window.location.reload();
+            }
+        });
+        window.location.reload();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Personal Page</title>
+</head>
+<body style="padding-top: 70px; background-color: #76c1ff;"><!-- #f3f3f3  -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a href="/page/index/{{ uid }}/">首页</a></li>
+        	<li><a href="#">发现</a></li>
+        	<li class=""><a href="/page/index/{{ uid }}/topics/">话题</span></a></li>
+        </ul>
+
+      <form class="navbar-form navbar-left" method="POST" action="/page/index/{{ uid }}/search/">
+      	  <div class="form-group">
+             <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	  </div>
+      	  <button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+        </li>
+        <li class="dropdown active">
+        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span>
+        	</a>
+        	<ul class="dropdown-menu">
+	            <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#">设置</a></li>
+	            <li><a href="/page/index/">退出</a></li>
+        	</ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+    <!-- 头像和用户名面板 -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="media-left media-middle">
+                <img class="media-object" src="{% static 'image/1.jpg' %}" alt="80x80" width="80px" height="80px">
+            </div>
+            <div class="media-body media-middle">
+                <h2><strong>&nbsp;&nbsp;{{ other_nickname }}</strong> 的个人主页</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- 选项卡面板 -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="tabbable" id="tabs-278800">
+                <!-- 选项卡标题 -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#ideas" data-toggle="tab">TA的回答</a>
+                    </li>
+                    <li>
+                        <a href="#questions" data-toggle="tab">提出的问题</a>
+                    </li>
+                    <li>
+                        <a href="#topics" data-toggle="tab">关注的话题</a>
+                    </li>
+                </ul>
+
+                <!-- 对应的选项卡页面 -->
+                <div class="tab-content">
+                    <!-- 关注的话题列表 -->
+                    <div class="tab-pane" id="topics">
+                        <br>
+                        {% for topic in topics %}
+                        <p>
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <a href="#">
+                                        <img class="media-object" src="{% static 'image/1.jpg' %}" alt="60x60" width="60px" height="60px">
+                                    </a>
+                                </div>
+                                <div class="media-body media-middle">
+                                    <a href="/page/index/{{ uid }}/topics/{{ topic.tid }}/"><h5 class="media-heading">{{ topic.name }}<span class="badge">{{ topic.quenum }}</span></h5></a>
+                                </div>
+                            </div>
+                        </p>
+                        <hr>
+                        {% endfor %}
+                        
+                    </div>
+
+                    <!-- 提出的问题列表 -->
+                    <div class="tab-pane" id="questions">
+                        <br>
+                        {% for question in questions %}
+                        <!-- 问题1 -->
+                        <p>
+                            <a href="/page/index/{{ uid }}/question/{{ question.qid }}/" style="color: black;"><h4><strong>{{ question.title }}</strong></h4></a>
+                            <p style="color: gray;">{{ question.time }} · {{ question.ideanum }} 个回答</p>
+                        </p>
+                        <!-- 问题1 end -->
+                        <hr>
+                        {% endfor %}
+                    </div>
+
+                    <!-- 回答的列表 -->
+                    <div class="tab-pane active" id="ideas">
+                        <br>
+                        {% for list in ideas %}
+                        <!-- 回答1 -->
+                        <p>
+                            <p style="color: gray;">来自话题: <a href="/page/index/{{ uid }}/topics/{{ list.tid }}/">{{ list.name }}</a></p>
+                            <p>
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <a href="#">
+                                            <img class="media-object" src="{% static 'image/1.jpg' %}" alt="40x40" width="40px" height="40px">
+                                        </a>
+                                    </div>
+                                    <div class="media-body media-middle">
+                                        <h5 class="media-heading">&nbsp;<a href="/page/index/{{ uid }}/other/{{ list.idea.uid }}/"> {{ list.idea.nickname }}</a></h5>
+                                    </div>
+                                </div>
+                            </p>
+                            <h4><a href="/page/index/{{ uid }}/question/{{ list.qid }}/" style="color: black;"><b>{{ list.question }}</b></a></h4>
+                            
+                            <p>{{ list.idea.content }}</p>
+                            <p style="color: gray;">编辑于 {{ list.idea.time }}</p>
+
+                            <button type="button" class="btn btn-info btn-sm" id="{{ list.idea.iid }}" name="ok" onclick="good(this)">
+                            <span class="glyphicon glyphicon-triangle-top"></span> {{ list.idea.good }}
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm" id="-{{ list.idea.iid }}" name="ok" onclick="bad(this)">
+                            <span class="glyphicon glyphicon-triangle-bottom"></span> {{ list.idea.bad }}
+                            </button>
+                            <a style="margin-left: 5%;" href="/page/index/{{ uid }}/question/{{ list.qid }}/idea/{{ list.idea.iid }}/comments/"><span class="glyphicon glyphicon-comment"></span> {{ list.idea.commentnum }}评论</a>
+                            <a style="margin-left: 5%;"><span class="glyphicon glyphicon-send"></span> 分享</a>
+                            <a style="margin-left: 5%;"><span class="glyphicon glyphicon-star-empty"></span> 收藏</a>
+                            <a style="margin-left: 5%;"><span class="glyphicon glyphicon-alert"></span> 举报</a>
+                        </p>
+                        <!-- 回答1 end -->
+                        <hr>
+                        {% endfor %}
+                    </div>
+
+                </div><!-- tab-content end -->
+
+            </div><!-- tabbable end -->
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function good(obj){
+        var id = obj.id;
+        var name = obj.name;
+        //alert(name);
+        if(name == "ok"){
+        $.ajax({
+            type:"post",
+            url:"/page/index/add_good/",
+            data: {
+                'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                var res = JSON.parse(data);
+                var good = res.response;
+                var html = '<span class="glyphicon glyphicon-triangle-top"></span> ' + good;
+                $('#'+id).html(html);
+            }
+        });
+        document.getElementById(id).name="unok";
+        }
+        else{
+        $.ajax({
+            type:"post",
+            url:"/page/index/cancel_good/",
+            data: {
+                'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                var res = JSON.parse(data);
+                var good = res.response;
+                var html = '<span class="glyphicon glyphicon-triangle-top"></span> ' + good;
+                $('#'+id).html(html);
+            }
+        });
+        document.getElementById(id).name="ok";
+        }
+    }
+    function bad(obj){
+        var id = obj.id;
+        var name = obj.name;
+        if(name == "ok"){
+        $.ajax({
+            type:"post",
+            url:"/page/index/add_bad/",
+            data: {
+                'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                var res = JSON.parse(data);
+                var bad = res.response;
+                var html = '<span class="glyphicon glyphicon-triangle-bottom"></span> ' + bad;
+                $('#'+id).html(html);
+            }
+        });
+        document.getElementById(id).name="unok";
+        }
+        else{
+        $.ajax({
+            type:"post",
+            url:"/page/index/cancel_bad/",
+            data: {
+                'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                var res = JSON.parse(data);
+                var bad = res.response;
+                var html = '<span class="glyphicon glyphicon-triangle-bottom"></span> ' + bad;
+                $('#'+id).html(html);
+            }
+        });
+        document.getElementById(id).name="ok";
+        }
+    }
+</script>
+
+</body>
+</html>

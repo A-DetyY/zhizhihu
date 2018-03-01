@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Edit Idea</title>
+</head>
+<body style="background-color: #76c1ff;"><!-- #f3f3f3  -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a href="/page/index/{{ uid }}/">首页</a></li>
+        	<li><a href="#">发现</a></li>
+        	<li class=""><a href="/page/index/{{ uid }}/topics/">话题</span></a></li>
+        </ul>
+
+      <form method="POST" action="/page/index/{{ uid }}/search/" class="navbar-form navbar-left">
+      	  <div class="form-group">
+             <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	  </div>
+      	  <button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+        </li>
+        <li class="dropdown">
+        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span>
+        	</a>
+        	<ul class="dropdown-menu">
+	            <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#">设置</a></li>
+	            <li><a href="/page/index/">退出</a></li>
+        	</ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- 问题信息 -->
+<div class="panel panel-default">
+	<div class="container" style="padding-left: 10%; padding-right: 10%;">
+	    <div class="page-header">
+	        <br>
+	        <!-- 问题和问题描述 -->
+	        <h3>问题: <a href="/page/index/{{ uid }}/question/{{ qid }}/"><strong>{{ title }} </strong></a></h3>
+	        <br>
+	    </div>
+	</div>
+</div>
+
+
+<!-- 编辑回答面板 -->
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+	<div class="panel panel-default">
+	  	<div class="panel-body">
+		    <form action="/page/index/{{ uid }}/saveidea/{{ iid }}/" method="POST">
+		        <h3 class="text-center">修改你的回答<small> 一个好的回答能让更多人受益</small></h3>
+		        <p>
+		            我的回答: 
+		        </p>
+		        <p>
+		            <textarea class="form-control" rows="5" placeholder="我的回答" name="idea-of" >{{ content }}</textarea>
+		        </p>
+		        <br><br>
+		        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> -->
+		        <p>
+		            <button type="submit" class="btn btn-primary btn-block">确认修改</button>
+		        </p>
+		    </form>
+		</div>
+	</div>
+</div>
+
+</div>
+</body>
+</html>

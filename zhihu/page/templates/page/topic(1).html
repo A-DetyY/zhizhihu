@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Topic</title>
+</head>
+<body style="padding-top: 70px; background-color: #76c1ff;"><!-- #f3f3f3  -->
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a href="/page/index/{{ uid }}/">首页</a></li>
+        	<li><a href="#">发现</a></li>
+        	<li class="active"><a href="/page/index/{{ uid }}/topics/">话题</a></li>
+        </ul>
+
+        <form class="navbar-form navbar-left" method="POST" action="/page/index/{{ uid }}/search/">
+      	    <div class="form-group">
+               <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	    </div>
+      	    <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+
+      <ul class="nav navbar-nav navbar-right">
+          <li>
+        	  <a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+          </li>
+          <li class="dropdown">
+        	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	  <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span>
+        	  </a>
+        	  <ul class="dropdown-menu">
+	              <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	              <li role="separator" class="divider"></li>
+	              <li><a href="#">设置</a></li>
+	              <li><a href="/page/index/">退出</a></li>
+        	  </ul>
+          </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<h2>话题广场 <small><small>这里汇聚了所有的话题... 挑一个感兴趣的吧( •̀ ω •́ )✧</small></small></h2>
+					<!-- <p style="color: gray;">这里汇聚了所有的话题...=w=</p> -->
+				</div>
+			</div>
+
+			<div class="row">
+				{% for topic in topics %}
+				<div class="col-md-3">
+					<div class="thumbnail">
+						<img alt="300x200" src="{% static 'image/1.jpg' %}" />
+						<div class="caption">
+							<h3>
+								{{ topic.name }}
+							</h3>
+							<p>
+								该话题包含{{ topic.quenum }}个问题
+							</p>
+							<p>
+								<button type="button" id="{{ uid }}-{{ topic.tid }}" name="{{ topic.focus }}" onclick="done(this)" 
+								{% if topic.focus == 1 %}
+								class="btn btn-success"
+								{% else %}
+								class="btn btn-primary"
+								{% endif %}
+								>	
+								{% if topic.focus == 1 %}
+								已关注							
+								{% else %}
+								关注
+								{% endif %}
+								</button>
+								<a class="btn" href="/page/index/{{ uid }}/topics/{{ topic.tid }}/">更多 »</a>
+							</p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function done(obj){
+		//alert('Noooo');
+        var id = obj.id;
+        var name = obj.name;
+        //alert(strs[0]+strs[1]);
+        
+        if(name == "0"){
+        $.ajax({
+            type:"post",
+            url:"/page/index/add_focus/",
+            data: {
+            	'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                //var res = JSON.parse(data);
+                //var good = res.response;
+                //var html = '<span class="glyphicon glyphicon-triangle-top"></span> ' + good;
+                document.getElementById(id).setAttribute("class","btn btn-success")
+	    		$('#'+id).html("已关注");
+            }
+        });
+        document.getElementById(id).name="1";
+    	}
+    	else{
+    	$.ajax({
+            type:"post",
+            url:"/page/index/cancel_focus/",
+            data: {
+            	'id': id,
+            },
+            success: function(data){
+                //alert(data);
+                //var res = JSON.parse(data);
+                //var good = res.response;
+                document.getElementById(id).setAttribute("class","btn btn-primary")
+	    		$('#'+id).html("关注");
+            }
+        });
+    	document.getElementById(id).name="0";
+    	}
+    	
+    }
+</script>
+
+</body>
+</html>

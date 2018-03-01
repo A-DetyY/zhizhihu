@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<form method="post" action="/page/registered/">
+	{% csrf_token %}
+		<input type="text" name="uid" aria-label="ID" placeholder="ID">
+		<input type="text" name="nickname" aria-label="昵称" placeholder="昵称">
+		<input type="text" name="account1" aria-label="用户名" placeholder="用户名">
+		<input type="text" name="password1" aria-label="密码" placeholder="密码">
+		<input type="submit" name="registered" value="注册">
+	</form>
+	<form method="post" action="/page/signin/">
+	{% csrf_token %}
+		<input type="text" name="account2" aria-label="用户名" placeholder="用户名">
+		<input type="text" name="password2" aria-label="密码" placeholder="密码">
+		<input type="submit" name="signin" value="登陆">
+	</form>
+</body>
+</html>

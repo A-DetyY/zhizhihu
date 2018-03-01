@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+    <h1> Hi </h1>
+
+    <h2>
+        <a href="/page/index/{{ uid }}/mine/">{{ account }}</a>
+    </h2>
+    <form method="post" action="/page/index/{{ uid }}/ask/">
+        {% csrf_token %}
+        <input type="submit" name="submit2" value="提问">
+    </form>
+    <form method="post" action="/page/index/{{ uid }}/topics/">
+        {% csrf_token %}
+        <input type="submit" name="submit" value="话题中心">
+    </form>
+    <hr>
+    <table>
+        {% for list in lists %}
+            <p>{{ list.tid }}</p>
+            <p><a href="/page/index/{{ uid }}/topics/{{ list.tid }}/">{{ list.name }}</a></p>
+            <p>{{ list.qid }}</p>
+            <p><a href="/page/index/{{ uid }}/question/{{ list.qid }}/">{{ list.question }}</a></p>
+            <p><a href="/page/index/{{ uid }}/question/{{ list.qid }}/idea/{{ list.idea.iid }}/comments/">{{ list.idea.iid }}</a></p>
+            <p>{{ list.idea.content }}</p>
+            <p>{{ list.idea.time }}</p>
+            <p>{{ list.idea.commentnum }}</p>
+            <p>{{ list.idea.good }}</p>
+            <p>{{ list.idea.bad }}</p>
+            <p><a href="/page/index/{{ list.idea.uid }}/mine/">{{ list.idea.uid }}</a></p>
+            <hr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

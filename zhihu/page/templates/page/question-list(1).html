@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- 引入 Bootstrap -->
+	{% load staticfiles %}
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Question List</title>
+</head>
+<body style="padding-top: 70px;"><!-- #f3f3f3  -->
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #2a90f8;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: white;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a href="/page/index/{{ uid }}/"><span style="color: white;">首页</span></a></li>
+        	<li><a href="#"><span style="color: white;">发现</span></a></li>
+        	<li class=""><a href="/page/index/{{ uid }}/topics/"><span style="color: white;">话题</span></a></li>
+        </ul>
+
+        <form class="navbar-form navbar-left" method="POST" action="/page/index/{{ uid }}/search/">
+      	    <div class="form-group">
+               <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	    </div>
+      	    <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+
+      <ul class="nav navbar-nav navbar-right">
+          <li>
+        	  <a href="#"><span style="color: white;"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</span></a>
+          </li>
+          <li class="dropdown">
+        	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	  <span style="color: white;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>{{ nickname }}<span class="caret"></span></span>
+        	  </a>
+        	  <ul class="dropdown-menu">
+	              <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	              <li role="separator" class="divider"></li>
+	              <li><a href="#">设置</a></li>
+	              <li><a href="/page/index/">退出</a></li>
+        	  </ul>
+          </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+	<div class="row clearfix">
+			
+			<div class="col-md-8 column">
+				<!-- 话题名称 -->
+				<h3><img src="{% static 'image/1.jpg' %}" width="50px" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;{{ topic }}</h3><hr>
+				{% for question in questions %}
+				<!-- 问题列表 -->
+				<div name="question-list-{{ question.qid }}">
+					<!-- 问题和问题描述 -->
+					<p><span style="color: gray;">问题: </span><a href="/page/index/{{ uid }}/question/{{ question.qid }}/"><strong style="color: #5a66c2;">{{ question.title }}</strong> <span class="badge">{{ question.ideanum }} </span></a></p>
+		    		<p><span style="color: gray;">描述: </span>{{ question.content }}</p>
+		    		<p style="color: gray;">编辑于 {{ question.time }}</p>
+
+		    		<!-- 按钮 -->
+					<a style="margin-right: 8%;" data-toggle="collapse" href="#idea-input-panel-{{ question.qid }}" aria-expanded="false" aria-controls="idea-input-panel-{{ question.qid }}"><span class="glyphicon glyphicon-pencil"></span> 写回答</a>
+					<a style="margin-right: 8%;"><span class="glyphicon glyphicon-send"></span> 分享</a>
+					<a style="margin-right: 8%;"><span class="glyphicon glyphicon-alert"></span> 举报</a>
+					<hr>
+
+					<!-- 回答输入框 -->
+                    <div class="panel panel-success collapse" id="idea-input-panel-{{ question.qid }}">
+                        <div class="panel-body">
+                            <div class="row clearfix">
+                                <form class="idea_write" id="{{ uid }}-{{ question.qid }}" method="post" enctype="multipart/form-data" onsubmit="done(this)">
+                                    <div class="col-md-12 column">
+                                        <div class="media-left media-middle">
+                                            <a href="#">
+                                                <img class="media-object" src="{% static 'image/1.jpg' %}" alt="35x35" width="35px" height="35px">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                        	<button type="submit" class="btn btn-success pull-right">提交回答</button>
+                                            <p><a href="#"><strong>{{ nickname }}</strong></a></p>
+                                        </div>
+                                        <br>
+                                        <input type="hidden" name="uid" value="{{ uid }}">
+                                        <input type="hidden" name="qid" value="{{ question.qid }}">
+                                        <p><textarea type="text" rows="10" class="form-control" name="idea_content" placeholder="写回答..."></textarea></p>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				{% endfor %}
+			</div>
+
+			<!-- 右边热门话题栏 -->
+			<div class="col-md-4 column">
+				<strong>其他热门话题: </strong><hr>
+				<!-- 热门话题列表 -->
+				{% for other in others %}
+				<div class="media">
+				    <div class="media-left media-middle">
+				    	<a href="#">
+				        	<img class="media-object" src="{% static 'image/1.jpg' %}" alt="40x40" width="40px" height="40px">
+				    	</a>
+				  	</div>
+				    <div class="media-body media-middle">
+				    	<a href="/page/index/{{ uid }}/topics/{{ other.tid }}/"><h5 class="media-heading">{{ other.name }} <span class="badge pull-right">{{ other.quenum }}</span></h5></a>
+				  	</div>
+				</div>
+				{% endfor %}
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	function done(obj){
+		var id = obj.id;
+		//alert(id);
+		var strs = new Array();
+		strs = id.split("-");
+		//alert(strs[0]);
+		//alert(strs[1]);
+		var content = obj.idea_content.value;
+		//alert(content);
+		$.ajax({
+            type:"post",
+            url:"/page/index/make_idea/",
+            data: {
+                'uid': strs[0],
+                'qid': strs[1],
+                'content': content,
+            },
+            success: function(data){
+                //alert(data);
+            
+                window.location.href = '/page/index/{{ uid }}/topics/{{ tid }}/';
+                window.location.reload();
+            }
+        });
+        window.location.reload();
+	}
+	/*
+    $(".idea_write").submit(function(){
+    	alert("INNNNNN");
+        var uid = $('uid').val();
+        var qid = $('qid').val();
+        var content = $('idea_content').val();
+        alert(uid+qid+content)
+        $.ajax({
+            type:"post",
+            url:"/page/index/make_idea/",
+            data: {
+                'uid': uid,
+                'qid': qid,
+                'content': content,
+            },
+            success: function(data){
+                //alert(data);
+            }
+        });
+    });
+	*/
+</script>
+
+</body>
+</html>

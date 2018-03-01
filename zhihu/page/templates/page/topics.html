@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+    <h1> Hi </h1>
+    <h2>
+        <a href="/page/index/{{ uid }}/mine/">{{ account }}</a>
+    </h2>
+
+        {% csrf_token %}
+        <table>
+            {% for topic in topics %}
+                <tr>
+                    <td><a href="/page/index/{{ uid }}/topics/{{ topic.tid }}/">{{ topic.name }}</a></td>
+                    <td>{{ topic.quenum }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+</body>
+</html>

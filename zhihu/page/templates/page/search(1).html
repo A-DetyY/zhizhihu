@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load staticfiles %}
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Search Result</title>
+</head>
+<body style="background-color: #76c1ff;"><!-- #f3f3f3  -->
+
+<!-- 顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" style="background-color: white;"> <!-- 默认导航栏 -->
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">  反色导航栏 -->
+  <div class="container" style="padding-left: 10%; padding-right: 10%;">
+  	<div class="row clearfix">
+  	<div class="col-md-12 column">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><span style="color: blue;">知知乎</span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        	<li class=""><a href="/page/index/{{ uid }}/">首页</a></li>
+        	<li><a href="#">发现</a></li>
+        	<li class=""><a href="/page/index/{{ uid }}/topics/">话题</span></a></li>
+        </ul>
+
+      <form class="navbar-form navbar-left" method="POST" action="/page/index/{{ uid }}/search/">
+      	<div class="form-group">
+           <input type="text" class="form-control" name="keyword" placeholder="搜索你感兴趣的内容">
+      	</div>
+      	<button type="submit" class="btn btn-primary">搜索</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<a href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 通知</a>
+        </li>
+        <li class="dropdown">
+        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            	<span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ nickname }} <span class="caret"></span>
+        	</a>
+        	<ul class="dropdown-menu">
+	            <li><a href="/page/index/{{ uid }}/mine/">我的主页</a></li>
+	            <li role="separator" class="divider"></li>
+	            <li><a href="#">设置</a></li>
+	            <li><a href="/page/index/">退出</a></li>
+        	</ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+	</div>
+	</div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="panel panel-default" style="background-color: white;">
+    <div class="container" style="padding-left: 10%; padding-right: 10%;">
+        <br><br><br>
+        <h3><strong style="color: red;">{{ keyword }}</strong> 的搜索结果</h3>
+        <br>
+    </div>
+</div>
+
+
+<!-- 搜索结果页面 -->
+<div class="container" style="padding-left: 10%; padding-right: 10%;">
+
+    <!-- 选项卡面板 -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="tabbable">
+                <!-- 选项卡标题 -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#topics" data-toggle="tab">相关话题</a>
+                    </li>
+                    <li>
+                        <a href="#questions" data-toggle="tab">相关问题</a>
+                    </li>
+                    <li>
+                        <a href="#users" data-toggle="tab">相关用户</a>
+                    </li>
+                </ul>
+
+                <!-- 对应的选项卡页面 -->
+                <div class="tab-content">
+                    <!-- 相关的话题列表 -->
+                    <div class="tab-pane active" id="topics">
+                        <br>
+                        {% for topic in topics %}
+                        <p>
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <a href="#">
+                                        <img class="media-object" src="{% static 'image/1.jpg' %}" alt="60x60" width="60px" height="60px">
+                                    </a>
+                                </div>
+                                <div class="media-body media-middle">
+                                    <h4>
+                                        <a href="#">{{ topic.name }} <span class="badge">{{ topic.quenum }}</span></a>
+                                        <a href="/page/index/{{ uid }}/topics/{{ topic.tid }}/" class="btn btn-success pull-right">进入话题</a>
+                                    </h4>
+                                    <!--
+                                    <p>游戏 是一种在特定时间、空间范围内遵循某种特定规则的，追求精神…</p>
+                                    <p style="color: gray;">12305 个关注 · 3241 个相关问题</p>
+                                    -->
+                                </div>
+                            </div>
+                        </p>
+                        <hr>
+                        {% endfor %}
+                       
+                    </div>
+
+                    <!-- 相关的问题列表 -->
+                    <div class="tab-pane" id="questions">
+                        <br>
+                        {% for question in questions %}
+                        <!-- 问题1 -->
+                        <a href="/page/index/{{ uid }}/question/{{ question.qid }}/"><h4><b>{{ question.title }}</b></h4></a>
+                        
+                        <p>{{ question.content }}
+                        <br>
+                        <!-- 时间标注 -->
+                            <blockquote class="blockquot">
+                                <footer>提出于 {{ question.time }}</footer>
+                            </blockquote>
+
+                        <a><span class="glyphicon glyphicon-comment"></span> &nbsp;{{ question.ideanum }} 条回答</a>
+                        <!-- 问题1 end -->
+                        <hr>
+                    {% endfor %}
+
+                    </div>
+
+                    <!-- 相关用户的列表 -->
+                    <div class="tab-pane" id="users">
+                        <!--<br>-->
+                        {% for user in users %}
+                        <!-- 用户1 -->
+                        <p>
+                             <div class="media">
+                                <div class="media-left media-middle">
+                                    <a href="#">
+                                        <img class="media-object" src="{% static 'image/1.jpg' %}" alt="40x40" width="40px" height="40px">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading">&nbsp;{{ user.nickname }}</h5>
+                                    <p style="color: gray;">
+                                        <a href="/page/index/{{ uid }}/other/{{ user.uid }}/" class="btn btn-success pull-right">访问TA的主页</a>
+                                        {{ user.answer }} 回答 · {{ user.ask }} 提问 · {{ user.focus }} 关注话题
+                                    </p>
+                                </div>
+                            </div>
+                        </p>
+                        <!-- 用户1 end -->
+                        <hr>
+                        {% endfor %}
+                      
+                    </div>
+
+                </div><!-- tab-content end -->
+
+            </div><!-- tabbable end -->
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

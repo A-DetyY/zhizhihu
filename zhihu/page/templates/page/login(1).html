@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	<!-- 引入 Bootstrap -->
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Welcome</title>
+</head>
+
+<body style="padding-top: 8%; background-size: 100%;" background="{% static 'image/10.jpg' %}">
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+
+				<div class="col-md-2 column">
+				</div>
+
+				<div class="col-md-6 column">
+					<h1 style="color: white;">知知乎</h1><br>
+					<h4 style="color: white;">登录知知乎, </h4>
+					<h4 style="color: white;">发现更大的世界...</h4>
+				</div>
+
+				<div class="col-md-4 column">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							
+							<h1 class="text-center" style="color: blue;">知知乎</h1><br>
+							
+							<div class="tabbable" id="tabs-278800">
+								
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a href="#login-panel" data-toggle="tab">登录</a>
+									</li>
+									<li>
+										<a href="#register-panel" data-toggle="tab">注册</a>
+									</li>
+								</ul>
+
+								<div class="tab-content">
+									<div class="tab-pane active" id="login-panel">
+										<form role="form" method="POST" action="/page/signin/">
+											<br>
+											<div class="form-group">
+												 <label for="exampleInputEmail1">用户名：</label>
+												 <input type="text" class="form-control" id="exampleInputEmail1" name="account2" style="background:rgba(0, 0, 0, 0);" />
+											</div>
+											<div class="form-group">
+												 <label for="exampleInputPassword1">密码：</label>
+												 <input type="password" class="form-control" id="exampleInputPassword1" name="password2" style="background:rgba(0, 0, 0, 0);"/>
+											</div>
+											<br>
+											<div class="form-group">
+												<button type="submit" class="btn btn-primary btn-lg btn-block">登录</button>
+											</div>
+										</form>
+									</div>
+									<div class="tab-pane" id="register-panel">
+										<form role="form" method="POST" action="/page/registered/">
+											<br>
+											<div class="form-group">
+												 <label for="exampleInputEmail1">用户名：</label>
+												 <input type="text" class="form-control" id="exampleInputEmail1" name="account1" style="background:rgba(0, 0, 0, 0);" />
+											</div>
+											<div class="form-group">
+												 <label for="exampleInputEmail1">昵称：</label>
+												 <input type="text" class="form-control" id="exampleInputNickname" name="nickname1" style="background:rgba(0, 0, 0, 0);" />
+											</div>
+											<div class="form-group">
+												 <label for="exampleInputPassword1">密码：</label>
+												 <input type="password" class="form-control" id="exampleInputPassword1" name="password1" style="background:rgba(0, 0, 0, 0);"/>
+											</div>
+											<div class="form-group">
+												 <label for="exampleInputPassword1">重复密码：</label>
+												 <input type="password" class="form-control" id="exampleInputPassword1" name="password3" style="background:rgba(0, 0, 0, 0);"/>
+											</div>
+											<br>
+											<div class="form-group">
+												<button type="submit" class="btn btn-success btn-lg btn-block">注册</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

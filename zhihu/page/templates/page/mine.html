@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+    <h1> Hi </h1>
+    <h2>
+        <a href="/page/index/{{ uid }}/mine/">{{ account }}</a>
+    </h2>
+    <hr>
+    <h4>关注的话题：</h4>
+    <table>
+        {% for topic in topics %}
+        <tr>
+            <td>{{ topic.name }}</td>
+            <td>{{ topic.quenum }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    <h4>提出的问题：</h4>
+    <table>
+        {% for question in questions %}
+        <tr>
+            <td>{{ question.title }}</td>
+            <td>{{ question.content }}</td>
+            <td>{{ question.time }}</td>
+            <td>{{ question.ideanum }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    <h4>的回答：</h4>
+    <table>
+        {% for idea in ideas %}
+        <tr>
+            <td>{{ idea.content }}</td>
+            <td>{{ idea.time }}</td>
+            <td>{{ idea.commentnum }}</td>
+            <td>{{ idea.good }}</td>
+            <td>{{ idea.bad }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <hr>
+</body>
+</html>
